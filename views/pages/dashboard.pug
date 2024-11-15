@@ -1,0 +1,48 @@
+extends ../layouts/default
+
+block main
+  .container
+    .row
+      //- Thông tin nhanh
+      .col-md-4
+        .card
+          .card-body
+            h5 Số người trong cửa hàng: #{record_store_status.people_inside}
+            p.small Thời gian cập nhật: #{record_store_status.updated_at}
+      .col-md-4
+        .card
+          .card-body
+            h5 Số người vào: #{record_store_status.people_in}
+            p.small Thời gian cập nhật: #{record_store_status.updated_at}
+      .col-md-4
+        .card
+          .card-body
+            h5 Số người ra: #{record_store_status.people_out}
+            p.small Thời gian cập nhật: #{record_store_status.updated_at}
+
+    .row
+      .col-md-8
+        .card
+          .card-body
+            h5 Biểu đồ thống kê
+            .chart-container
+              canvas#myChart(width="300" height="150") // Biểu đồ nhỏ hơn
+
+      .col-md-4
+        .card
+          .card-body
+            h5 Chế độ
+            .btn-group(role="group")
+              button.btn.btn-outline-primary(type="button") Auto
+              button.btn.btn-outline-secondary(type="button") Manual
+
+        .card
+          .card-body
+            h5 Trạng thái
+            .btn-group(role="group")
+              button.btn.btn-outline-success(type="button") On
+              button.btn.btn-outline-danger(type="button") Off
+
+    //- Script cho biểu đồ
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    script(src="js/dashboard.js") 
