@@ -30,8 +30,7 @@ module.exports.dashboardPOST = async (req, res) => {
             "statusCode": 201,
             "message": "create successfully",
         });
-    }
-    catch(err) {
+    } catch (err) {
         return res.json({
             "statusCode": 400,
             "message": "Bad request"

@@ -1,11 +1,24 @@
 /* public/css/style.css */
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background-color: #2c3e50;
+  overflow-y: auto;
+  z-index: 1000; /* Đảm bảo sidebar luôn ở trên phần nội dung */
+}
+
 .sidebar a {
   color: white;
   display: block;
   padding: 15px;
   text-decoration: none;
   font-weight: 500;
-  background-color: #2c3e50; /* Màu mặc định của sider */
+  background-color: #2c3e50; /* Màu mặc định của sidebar */
   transition: background-color 0.3s ease;
 }
 
@@ -19,4 +32,12 @@
 
 .sidebar i {
   margin-right: 10px;
+}
+
+/* Nội dung chính */
+.content {
+  margin-left: 250px; /* Tạo khoảng cách để nội dung không bị che khuất bởi sidebar */
+  padding: 40px;
+  height: 100vh; /* Chiều cao của nội dung bằng toàn bộ màn hình */
+  overflow-y: auto;
 }

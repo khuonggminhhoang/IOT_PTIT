@@ -3,99 +3,53 @@ extends ../layouts/default
 block main
   .container-fluid
     .row
-      //- Lọc dữ liệu
+      .col-md-12
+        .card
+          .card-header.text-center
+            h4 Sensor Log - Lịch sử Đếm Người Ra Vào Cửa
+            p.text-muted Xem chi tiết các sự kiện ra vào được ghi nhận bởi cảm biến.
+
+    .row.mt-4
+      //- Form lọc dữ liệu
       .col-md-12
         .card
           .card-body
-            h5 Lọc dữ liệu
-            form
+            h5 Lọc Dữ Liệu
+            form(method="GET", action="/sensorlog")
               .row
-                .col-md-3
+                .col-md-4
                   .form-group
-                    label(for="fromDate") Chọn ngày từ:
-                    input#fromDate.form-control(type="date")
-                .col-md-3
+                    label(for="fromDate") Ngày thống kê:
+                    input#fromDate.form-control(type="date", name="fromDate", required)
+                .col-md-4
                   .form-group
-                    label(for="toDate") Chọn ngày đến:
-                    input#toDate.form-control(type="date")
-                .col-md-3
+                    label(for="fromHour") Giờ bắt đầu:
+                    input#fromHour.form-control(type="time", name="fromHour", required)
+                .col-md-4
                   .form-group
-                    button.btn.btn-primary(type="submit") Lọc
-              
-    .row
-      //- Danh sách các bản ghi log
+                    label(for="toHour") Giờ kết thúc:
+                    input#toHour.form-control(type="time", name="toHour", required)
+                .col-md-12
+                  .form-group
+                    button.btn.btn-primary.w-100(type="submit") Lọc Dữ Liệu
+
+    .row.mt-4
+      //- Bảng dữ liệu
       .col-md-12
         .card
           .card-body
-            h5 Danh sách các bản ghi
-            table.table.table-striped
-              thead
+            h5 Danh Sách Lịch Sử Ghi Nhận
+            table.table.table-hover.table-bordered
+              thead.thead-dark
                 tr
-                  th Thời gian
-                  th Sự kiện
-                  th Số lượng
-                  th Cảm biến
+                  th Thời Gian
+                  th Hướng
+                  th Số Lượng
+                  th Cảm Biến
               tbody
-                tr
-                  td 09:00 AM
-                  td Người vào
-                  td 5
-                  td Cảm biến 1
-                tr
-                  td 09:05 AM
-                  td Người ra
-                  td 3
-                  td Cảm biến 1
-                tr
-                  td 09:10 AM
-                  td Người vào
-                  td 7
-                  td Cảm biến 2
-                tr
-                  td 09:15 AM
-                  td Người ra
-                  td 4
-                  td Cảm biến 2
-
-    .row
-      //- Biểu đồ thống kê
-      .col-md-12
-        .card
-          .card-body
-            h5 Biểu đồ thống kê
-            .chart-container
-              canvas#sensorLogChart(width="300" height="150") // Giảm kích thước biểu đồ
-
-    //- Script cho biểu đồ
-    script(src="https://cdn.jsdelivr.net/npm/chart.js")
-    script.
-      const ctx = document.getElementById('sensorLogChart').getContext('2d');
-      const sensorLogChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['9:00 AM', '9:05 AM', '9:10 AM', '9:15 AM'],
-          datasets: [{
-            label: 'Số người vào',
-            data: [5, 7, 10, 8],
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-            fill: true
-          }, {
-            label: 'Số người ra',
-            data: [3, 5, 4, 6],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
+                each log in visitor_logs
+                  tr
+                    td= log.timestamp
+                    td= log.direction == 'in' ? 'Vào' : 'Ra'
+                    td= log.quantity
+                    td= log.sensor_name
