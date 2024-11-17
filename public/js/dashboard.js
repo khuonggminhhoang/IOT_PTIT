@@ -1,19 +1,47 @@
+const formatDate = (date) => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12; // Chuyển 0 giờ thành 12
+  const formattedMinutes = minutes.toString().padStart(2, "0"); // Đảm bảo 2 chữ số
+  return `${formattedHours}:${formattedMinutes} ${period}`;
+};
+
 const ctx = document.getElementById('myChart').getContext('2d');
+let peopleIns = [];
+let peopleOuts = [];
+let times = []
+fetch(`http://localhost:3000/dashboard/chart`, {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+  },
+})
+.then(response => response.json())
+.then(result => {
+  result.forEach(x => peopleIns.push(x.people_in));
+  result.forEach(x => peopleOuts.push(x.people_out));
+  result.forEach(x => times.push(formatDate(new Date(x.updated_at))));
+})
+.catch(error => {
+  console.error("Lỗi:", error);
+});
+console.log(times);
 
 const myChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '13:00 PM', '14:00 PM', '15:00 PM', '16:00 PM', '17:00 PM'],
+    labels: times,
     datasets: [{
       label: 'Số người vào',
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: peopleIns,
       backgroundColor: 'rgba(54, 162, 235, 0.2)',
       borderColor: 'rgba(54, 162, 235, 1)',
       borderWidth: 1,
       fill: true
     }, {
       label: 'Số người ra',
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: peopleOuts,
       backgroundColor: 'rgba(255, 99, 132, 0.2)',
       borderColor: 'rgba(255, 99, 132, 1)',
       borderWidth: 1,
@@ -92,4 +120,27 @@ btnStates.forEach(btn => {
       });
   })
 
+});
+
+
+//- Script cho hiệu ứng thay đổi màu nút
+document.addEventListener('DOMContentLoaded', function() {
+  const onButton = document.getElementById('onButton');
+  const offButton = document.getElementById('offButton');
+
+  // Xử lý khi nút On được nhấn
+  onButton.addEventListener('click', function() {
+    onButton.classList.add('btn-success');
+    onButton.classList.remove('btn-outline-success');
+    offButton.classList.remove('btn-danger');
+    offButton.classList.add('btn-outline-danger');
+  });
+
+  // Xử lý khi nút Off được nhấn
+  offButton.addEventListener('click', function() {
+    offButton.classList.add('btn-danger');
+    offButton.classList.remove('btn-outline-danger');
+    onButton.classList.remove('btn-success');
+    onButton.classList.add('btn-outline-success');
+  });
 });

@@ -35,43 +35,32 @@ block main
               canvas#myChart(width="300" height="150") // Biểu đồ nhỏ hơn
 
       .col-md-4
-        //- .card
-        //-   .card-body
-        //-     h5 Chế độ
-        //-     .btn-group(role="group")
-        //-       button.btn.btn-outline-primary(type="button") Auto
-        //-       button.btn.btn-outline-secondary(type="button") Manual
-
         .card
           .card-body
             h5 Trạng thái
             .btn-group(role="group")
-              button.btn.btn-outline-success.btn-state(type="button" state="on" id='onButton') On
-              button.btn.btn-danger.btn-state(type="button" state="off" id='offButton') Off
+              button.btn.btn-success.btn-state(type="button" state="on" id='onButton') On
+              button.btn.btn-outline-danger.btn-state(type="button" state="off" id='offButton') Off
+        
+        // Khung thời điểm đông người nhất
+        .card.mt-4
+          .card-body
+            h5 Thời điểm đông người nhất
+            // Bọc bảng trong một div có thanh cuộn
+            .table-responsive(style="max-height: 300px; overflow-y: auto;")
+              table.table.table-bordered
+                thead
+                  tr
+                    th Thời gian
+                    th Số người
+                tbody
+                  each slot in time_slots
+                    tr
+                      td #{slot.time}
+                      td #{slot.people_count}
 
     //- Script cho biểu đồ
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
     script(src="js/dashboard.js") 
 
-    //- Script cho hiệu ứng thay đổi màu nút
-    script.
-      document.addEventListener('DOMContentLoaded', function() {
-        const onButton = document.getElementById('onButton');
-        const offButton = document.getElementById('offButton');
-
-        // Xử lý khi nút On được nhấn
-        onButton.addEventListener('click', function() {
-          onButton.classList.add('btn-success');
-          onButton.classList.remove('btn-outline-success');
-          offButton.classList.remove('btn-danger');
-          offButton.classList.add('btn-outline-danger');
-        });
-
-        // Xử lý khi nút Off được nhấn
-        offButton.addEventListener('click', function() {
-          offButton.classList.add('btn-danger');
-          offButton.classList.remove('btn-outline-danger');
-          onButton.classList.remove('btn-success');
-          onButton.classList.add('btn-outline-success');
-        });
-      });
+    

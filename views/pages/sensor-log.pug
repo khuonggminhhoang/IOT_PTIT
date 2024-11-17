@@ -8,28 +8,28 @@ block main
           .card-header.text-center(style="background-color: #2c3e50; color: #ffffff;")
             h4 Sensor Log - Lịch sử Đếm Người Ra Vào Cửa
             p(style="color: #ffffff;") Xem chi tiết các sự kiện ra vào được ghi nhận bởi cảm biến.
-    .row.mt-4
-      //- Form lọc dữ liệu
-      .col-md-12
-        .card
-          .card-body
-            h5 Lọc Dữ Liệu
-            form(method="GET" action="/sensorlog")
-              .row.align-items-end
-                .col-md-3
-                  .form-group
-                    label(for="fromDate") Ngày thống kê:
-                    input#fromDate.form-control(type="date", name="fromDate", required)
-                .col-md-3
-                  .form-group
-                    label(for="fromHour") Giờ bắt đầu:
-                    input#fromHour.form-control(type="time", name="fromHour", required)
-                .col-md-3
-                  .form-group
-                    label(for="toHour") Giờ kết thúc:
-                    input#toHour.form-control(type="time", name="toHour", required)
-                .col-md-3.text-right
-                  button.btn.btn-primary.btn-sm(type="submit") Lọc
+    //- .row.mt-4
+    //-   //- Form lọc dữ liệu
+    //-   .col-md-12
+    //-     .card
+    //-       .card-body
+    //-         h5 Lọc Dữ Liệu
+    //-         form(method="GET" action="/sensorlog")
+    //-           .row.align-items-end
+    //-             .col-md-3
+    //-               .form-group
+    //-                 label(for="fromDate") Ngày thống kê:
+    //-                 input#fromDate.form-control(type="date", name="fromDate", required)
+    //-             .col-md-3
+    //-               .form-group
+    //-                 label(for="fromHour") Giờ bắt đầu:
+    //-                 input#fromHour.form-control(type="time", name="fromHour", required)
+    //-             .col-md-3
+    //-               .form-group
+    //-                 label(for="toHour") Giờ kết thúc:
+    //-                 input#toHour.form-control(type="time", name="toHour", required)
+    //-             .col-md-3.text-right
+    //-               button.btn.btn-primary.btn-sm(type="submit") Lọc
 
     .row.mt-4
       //- Bảng dữ liệu lịch sử
@@ -49,8 +49,8 @@ block main
                     tr
                       td= log.timestamp
                       td= log.direction == 'IN' ? 'Vào' : 'Ra'
-                      td= log.sensor_name
-
+                      td= log.direction == 'IN' ? 'HC-SR04_IN' : 'HC-SR04_OUT'
+    hr.mt-4.mb-4
     .row.mt-4
       //- Bảng trạng thái bật/tắt hệ thống
       .col-md-12

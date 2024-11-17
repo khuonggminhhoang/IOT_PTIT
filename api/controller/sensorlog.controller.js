@@ -14,7 +14,6 @@ module.exports.sensorlog = async (req, res) => {
   try {
     // Lấy dữ liệu từ bảng `visitor_log`
     const [visitorRows] = await database.db.execute('SELECT * FROM visitor_log ORDER BY timestamp DESC');
-
     let visitor_logs = visitorRows;
 
     // Lọc dữ liệu theo ngày, giờ và hướng

@@ -10,4 +10,6 @@ router.post('/:state', controller.stateSystemPOST);
 
 router.get('/state-current', controller.stateCurrSystemGET);
 
+router.get('/chart', controller.getChart);
+
 module.exports = router;

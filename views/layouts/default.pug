@@ -13,23 +13,30 @@ html(lang="en")
         font-family: 'Roboto', sans-serif;
         margin: 0;
         padding: 0;
+        height: 100vh; /* Chiều cao của body bằng toàn bộ màn hình */
+        overflow: hidden; /* Ẩn cuộn dọc nếu không cần thiết */
       }
+
       .content {
-        margin-left: 220px; /* Đảm bảo có khoảng cách cho sidebar */
-        padding: 40px;
-        height: 100vh; /* Chiều cao của nội dung bằng toàn bộ màn hình */
+        margin-left: 220px; /* Khoảng cách cho sidebar */
+        padding: 20px; /* Giảm padding để tránh tràn */
+        height: calc(100vh - 40px); /* Trừ padding trên và dưới */
         background-color: #f4f6f9;
+        overflow-y: auto; /* Bật cuộn chỉ trong nội dung nếu cần */
       }
+
       .main-content {
         padding-top: 20px;
+        box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước phần tử */
       }
 
   body
-    .container-fluid
-      .row
+    .container
+      .row.col-4
         // Sidebar - bên trái
         include ../partials/sider
         // Nội dung chính - bên phải
+      .row.col-11
         main.content
           .main-content
             block main
