@@ -5,51 +5,66 @@ block main
     .row
       .col-md-12
         .card
-          .card-header.text-center
+          .card-header.text-center(style="background-color: #2c3e50; color: #ffffff;")
             h4 Sensor Log - Lịch sử Đếm Người Ra Vào Cửa
-            p.text-muted Xem chi tiết các sự kiện ra vào được ghi nhận bởi cảm biến.
-
+            p(style="color: #ffffff;") Xem chi tiết các sự kiện ra vào được ghi nhận bởi cảm biến.
     .row.mt-4
       //- Form lọc dữ liệu
       .col-md-12
         .card
           .card-body
             h5 Lọc Dữ Liệu
-            form(method="GET", action="/sensorlog")
-              .row
-                .col-md-4
+            form(method="GET" action="/sensorlog")
+              .row.align-items-end
+                .col-md-3
                   .form-group
                     label(for="fromDate") Ngày thống kê:
                     input#fromDate.form-control(type="date", name="fromDate", required)
-                .col-md-4
+                .col-md-3
                   .form-group
                     label(for="fromHour") Giờ bắt đầu:
                     input#fromHour.form-control(type="time", name="fromHour", required)
-                .col-md-4
+                .col-md-3
                   .form-group
                     label(for="toHour") Giờ kết thúc:
                     input#toHour.form-control(type="time", name="toHour", required)
-                .col-md-12
-                  .form-group
-                    button.btn.btn-primary.w-100(type="submit") Lọc Dữ Liệu
+                .col-md-3.text-right
+                  button.btn.btn-primary.btn-sm(type="submit") Lọc
 
     .row.mt-4
-      //- Bảng dữ liệu
+      //- Bảng dữ liệu lịch sử
       .col-md-12
         .card
           .card-body
             h5 Danh Sách Lịch Sử Ghi Nhận
-            table.table.table-hover.table-bordered
-              thead.thead-dark
-                tr
-                  th Thời Gian
-                  th Hướng
-                  th Số Lượng
-                  th Cảm Biến
-              tbody
-                each log in visitor_logs
+            .history-log-container(style="max-height: 300px; overflow-y: auto;")
+              table.table.table-hover.table-bordered
+                thead.thead-dark
                   tr
-                    td= log.timestamp
-                    td= log.direction == 'in' ? 'Vào' : 'Ra'
-                    td= log.quantity
-                    td= log.sensor_name
+                    th Thời Gian
+                    th Hướng
+                    th Cảm Biến
+                tbody
+                  each log in visitor_logs
+                    tr
+                      td= log.timestamp
+                      td= log.direction == 'IN' ? 'Vào' : 'Ra'
+                      td= log.sensor_name
+
+    .row.mt-4
+      //- Bảng trạng thái bật/tắt hệ thống
+      .col-md-12
+        .card
+          .card-body
+            h5 Trạng Thái Hệ Thống
+            .system-status-container(style="max-height: 300px; overflow-y: auto;")
+              table.table.table-hover.table-bordered
+                thead.thead-dark
+                  tr
+                    th Thời Gian
+                    th Trạng Thái
+                tbody
+                  each status in state_system
+                    tr
+                      td= status.timestamp
+                      td= status.state == 'on' ? 'Bật' : 'Tắt'

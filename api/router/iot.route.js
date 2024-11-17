@@ -6,4 +6,8 @@ router.get('/', controller.dashboardGET);
 
 router.post('/', controller.dashboardPOST)
 
+router.post('/:state', controller.stateSystemPOST);
+
+router.get('/state-current', controller.stateCurrSystemGET);
+
 module.exports = router;

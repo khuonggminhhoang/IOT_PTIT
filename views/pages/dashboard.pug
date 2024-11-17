@@ -3,24 +3,30 @@ extends ../layouts/default
 block main
   .container
     .row
+      .col-md-12
+        .card
+          .card-header.text-center(style="background-color: #2c3e50; color: #ffffff;")
+            h3 Tổng quan hệ thống đếm số người ra vào cửa hàng
+
+    .row.mt-4
       //- Thông tin nhanh
       .col-md-4
         .card
           .card-body
-            h5 Số người trong cửa hàng: #{record_store_status.people_inside}
-            p.small Thời gian cập nhật: #{record_store_status.updated_at}
+            h5 Số người trong cửa hàng: <span id="people-inside">#{record_store_status.people_inside}</span>
+            p.small Thời gian cập nhật: <span id="time-update">#{record_store_status.updated_at}</span>
       .col-md-4
         .card
           .card-body
-            h5 Số người vào: #{record_store_status.people_in}
-            p.small Thời gian cập nhật: #{record_store_status.updated_at}
+            h5 Số người vào: <span id="people-in">#{record_store_status.people_in}</span>
+            p.small Thời gian cập nhật: <span id="time-update">#{record_store_status.updated_at}</span>
       .col-md-4
         .card
           .card-body
-            h5 Số người ra: #{record_store_status.people_out}
-            p.small Thời gian cập nhật: #{record_store_status.updated_at}
+            h5 Số người ra: <span id="people-out">#{record_store_status.people_out}</span>
+            p.small Thời gian cập nhật: <span id="time-update">#{record_store_status.updated_at}</span>
 
-    .row
+    .row.mt-4
       .col-md-8
         .card
           .card-body
@@ -29,20 +35,43 @@ block main
               canvas#myChart(width="300" height="150") // Biểu đồ nhỏ hơn
 
       .col-md-4
-        .card
-          .card-body
-            h5 Chế độ
-            .btn-group(role="group")
-              button.btn.btn-outline-primary(type="button") Auto
-              button.btn.btn-outline-secondary(type="button") Manual
+        //- .card
+        //-   .card-body
+        //-     h5 Chế độ
+        //-     .btn-group(role="group")
+        //-       button.btn.btn-outline-primary(type="button") Auto
+        //-       button.btn.btn-outline-secondary(type="button") Manual
 
         .card
           .card-body
             h5 Trạng thái
             .btn-group(role="group")
-              button.btn.btn-outline-success(type="button") On
-              button.btn.btn-outline-danger(type="button") Off
+              button.btn.btn-outline-success.btn-state(type="button" state="on" id='onButton') On
+              button.btn.btn-danger.btn-state(type="button" state="off" id='offButton') Off
 
     //- Script cho biểu đồ
     script(src="https://cdn.jsdelivr.net/npm/chart.js")
     script(src="js/dashboard.js") 
+
+    //- Script cho hiệu ứng thay đổi màu nút
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        const onButton = document.getElementById('onButton');
+        const offButton = document.getElementById('offButton');
+
+        // Xử lý khi nút On được nhấn
+        onButton.addEventListener('click', function() {
+          onButton.classList.add('btn-success');
+          onButton.classList.remove('btn-outline-success');
+          offButton.classList.remove('btn-danger');
+          offButton.classList.add('btn-outline-danger');
+        });
+
+        // Xử lý khi nút Off được nhấn
+        offButton.addEventListener('click', function() {
+          offButton.classList.add('btn-danger');
+          offButton.classList.remove('btn-outline-danger');
+          onButton.classList.remove('btn-success');
+          onButton.classList.add('btn-outline-success');
+        });
+      });
